@@ -1,0 +1,16 @@
+{
+  "name": "web-status",
+  "version": "0.0.0",
+  "description": "web-status",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "marko": "^4.13.8",
+    "pg": "^7.6.0",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1"
+  }
+}
