@@ -19,27 +19,27 @@ function render(input, out, __component, component, state) {
 
   out.w("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>" +
     marko_escapeXml(input.title) +
-    " - Status Krislawton</title><script src=\"/c/jquery-3.2.1.min.js\"></script><script src=\"/c/common.js\"></script><link rel=\"stylesheet\" href=\"/c/common.css\">");
+    " - Status Krislawton</title><script src=\"/c/jquery-3.2.1.min.js\"></script><script src=\"/c/websocket.js\"></script><script src=\"/c/common.js\"></script><link rel=\"stylesheet\" href=\"/c/common.css\">");
 
   include_tag({
       _target: input.head
-    }, out, __component, "7");
+    }, out, __component, "8");
 
   out.w("</head><body>");
 
   component_globals_tag({}, out);
 
-  out.w("<div id=\"page-header\"><a href=\"https://www.n.krislawton.com/\"><img src=\"https://www.n.krislawton.com/c/LogoWhite.png\"><span id=\"header-text\">krislawton.com</span></a></div><div id=\"page-non-header\"><div id=\"page-body\">");
+  out.w("<div id=\"page-header\"><a href=\"https://www.n.krislawton.com/\"><img src=\"/c/logo_white.png\"><span id=\"header-text\">krislawton.com</span></a></div><div id=\"page-non-header\"><div id=\"page-body\">");
 
   include_tag({
       _target: input.body
-    }, out, __component, "15");
+    }, out, __component, "16");
 
   out.w("</div><canvas id=\"bg-animation\"></canvas></div><div id=\"page-footer\">Powered by me</div>");
 
   init_components_tag({}, out);
 
-  await_reorderer_tag({}, out, __component, "18");
+  await_reorderer_tag({}, out, __component, "19");
 
   out.w("</body></html>");
 }

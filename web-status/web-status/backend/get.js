@@ -22,10 +22,13 @@ var filesToSend = {
 	"/c/common.css": { file: "common.css", directory: "/static/cssjs/" },
 	"/c/common.js": { file: "common.js", directory: "/static/cssjs/" },
 	"/c/FiraSans-Regular.ttf": { file: "FiraSans-Regular.ttf", directory: "/static/" },
-	"/c/jquery-3.2.1.min.js": { file: "jquery-3.2.1.min.js", directory: "/static/" }
+	"/c/jquery-3.2.1.min.js": { file: "jquery-3.2.1.min.js", directory: "/static/" },
+	"/c/logo_white.png": { file: "logo_white.png", directory: "/static/" },
+	"/c/websocket.js": { file: "socket.io.js", directory: "/node_modules/socket.io-client/dist/" },
+	"/c/index.js": { file: "index.js", directory: "/static/cssjs" }
 };
 
-// Sends instructions back to server.js as to whether to use mark or send a file
+// Sends instructions back to server.js as to whether to use marko or send a file
 module.exports = (request) => {
 
 	var conglomerated = {

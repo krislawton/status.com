@@ -20,6 +20,11 @@ function render(input, out, __component, component, state) {
   include_tag({
       _target: ___all_template,
       _arg: marko_merge({
+          head: {
+              renderBody: function renderBody(out) {
+                out.w("<script src=\"/c/index.js\"></script>");
+              }
+            },
           body: {
               renderBody: function renderBody(out) {
                 out.w("Hello there! ayo!");

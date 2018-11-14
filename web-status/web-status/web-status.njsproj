@@ -45,6 +45,9 @@
     <Compile Include="static\cssjs\common.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="static\cssjs\index.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="static\jquery-3.2.1.min.js" />
     <Content Include="package.json" />
     <Content Include="pages\includes\00_all.marko">
@@ -61,7 +64,7 @@
     </Content>
     <Content Include="static\FiraCode-Regular.ttf" />
     <Content Include="static\FiraSans-Regular.ttf" />
-    <Content Include="static\LogoWhite.png" />
+    <Content Include="static\logo_white.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="conf\" />

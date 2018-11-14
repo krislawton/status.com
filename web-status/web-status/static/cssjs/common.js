@@ -86,8 +86,8 @@ $(document).ready(() => {
 		var startX = firstFew ? Math.random() * $(window).innerWidth() - 500 : 0 - Math.random() * 500;
 
 		var sizeMultiplier = 0.2 + Math.random() * 0.8;
-		var minV = 0.4 * 5;
-		var maxV = 0.8 * 5;
+		var minV = 0.4 * 3;
+		var maxV = 0.8 * 3;
 		var coordVelocityFactor = 0.5;
 
 		var baseAngle = Math.random() * 360;
@@ -132,3 +132,5 @@ $(document).ready(() => {
 	}
 
 });
+
+var socket = io();

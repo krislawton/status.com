@@ -40,7 +40,11 @@ if (!enviroConfig.usesHttps) {
 }
 
 // Modules
-const websockets = require("socket.io");
+const websockets = require("socket.io").listen(server, {
+	pingTimeout: 7000,
+	pingInterval: 3000
+});
+
 
 const markoExpress = require("marko/express");
 app.use(markoExpress());
