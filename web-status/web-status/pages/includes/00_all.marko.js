@@ -29,17 +29,17 @@ function render(input, out, __component, component, state) {
 
   component_globals_tag({}, out);
 
-  out.w("<div id=\"page-header\"><a href=\"https://www.n.krislawton.com/\"><img src=\"/c/logo_white.png\"><span id=\"header-text\">krislawton.com</span></a></div><div id=\"page-non-header\"><div id=\"page-body\">");
+  out.w("<div id=\"error-space\"></div><div id=\"page-header\"><a href=\"https://www.n.krislawton.com/\"><img src=\"/c/logo_white.png\"><span id=\"header-text\">krislawton.com</span></a></div><div id=\"page-non-header\"><div id=\"page-body\">");
 
   include_tag({
       _target: input.body
-    }, out, __component, "16");
+    }, out, __component, "17");
 
-  out.w("</div><canvas id=\"bg-animation\"></canvas></div><div id=\"page-footer\">Powered by me</div>");
+  out.w("</div><canvas id=\"bg-animation\"></canvas></div><div id=\"page-footer\">Powered by me</div><div id=\"log-space\"></div>");
 
   init_components_tag({}, out);
 
-  await_reorderer_tag({}, out, __component, "19");
+  await_reorderer_tag({}, out, __component, "21");
 
   out.w("</body></html>");
 }

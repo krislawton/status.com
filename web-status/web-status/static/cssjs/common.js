@@ -133,4 +133,156 @@ $(document).ready(() => {
 
 });
 
+/* =========== */
+/* Web sockets */
+/* =========== */
+// Initial connection and tracking disconnections
 var socket = io();
+var socketIsConnected = false;
+socket.on("connect", () => {
+	socketIsConnected = true;
+});
+socket.on("reconnect", () => {
+	reportErrorToUser("0$00000102", "The page has reconnected its asyncronous connection to the server.");
+	socketIsConnected = true;
+});
+socket.on("connect_error", (e) => {
+	if (socketIsConnected) {
+		reportErrorToUser("0$00000101", "The page lost its asyncronous connection to the server. Either the server is having problems or your internet is.");
+		socketIsConnected = false;
+	}
+});
+
+// Custom socket request functions
+/**
+ * Does a socket.emit with error and pageload handling
+ * @param {string} type The type of talk we're doing. Choose from
+ * regular
+ * pageload-dependent
+ * @param {string} say What you want to talk to the server about. This should correspond to something the server can do something with.
+ * @param {any} args Argument(s) to pass to the emit along with the say.
+ * @param {function} callback Standard callback (format is '(error, result)')
+ */
+socket.talk = function () {
+	// Dynamic arguments
+	var type = arguments[0];
+	var say = arguments[1];
+
+	var cbIndex = arguments.length - 1;
+	var callback = arguments[cbIndex];
+
+	var args = [];
+	args.push(say);
+	for (var i = 2; i < arguments.length - 1; i++) {
+		args.push(arguments[i]);
+	}
+	args.push((error, result) => {
+		callback(error, result);
+	});
+
+	// Check type is valid first
+	var validTypes = ["regular", "pageload-dependent"];
+	if (validTypes.indexOf(type) === -1) {
+		reportErrorToUser("0$00000103", 'A bad asynchronous request was attempted: Type "' + type + '" does not exist.');
+		callback(true, null);
+		return;
+	}
+
+	// If it's valid, do the emit
+	//socket.emit.apply(null, args);
+	// Test replacement for emitting to server
+	try {
+		demoEmit.apply(null, args);
+	} catch (e) {
+		reportErrorToUser("0$00000104", "The asynchronous request went bad. Are the arguments correct?");
+		callback(true, null);
+	}
+};
+
+function demoEmit(say, arg1, arg2, arg3, callback) {
+	var passBack = {
+		title: "This is an example of a passed back object",
+		arguments: [arg1, arg2, arg3],
+		say: say
+	};
+	callback(null, passBack);
+}
+
+/* =============== */
+/* Error reporting */
+/* =============== */
+var errors = [];
+class Error {
+	constructor() {
+		this.timestamp = new Date();
+		this.code;
+		this.message;
+		this.resolved = false;
+	}
+}
+function addErrorToLog(code, message) {
+	var e = new Error;
+	e.code = code;
+	e.message = message;
+	errors.push(e);
+}
+
+/**
+ * Starting point for an error occurring
+ * @param {number} code The error code in hexatridecimal (base36).
+ * In the format 0$00ppccee where 0 and $ are literal, p is page, c is category, e is error.
+ * p00 is general, p01 is server.
+ * c00 is unspecified, c01 is socket.
+ * e00 is reserved for general
+ * @param {string} message The text to be shown.
+ */
+function reportErrorToUser(code, message) {
+	// Send to console
+	console.error(code + ": " + message);
+
+	// Create error in log
+	addErrorToLog(code, message);
+
+	// Create HTML object for error
+	var objContainer = document.createElement("div");
+	objContainer.className = "error";
+	objContainer.style.display = "none";
+	objContainer.dataset.code = code;
+
+	var objInner = document.createElement("div");
+	objInner.className = "inner";
+
+	var objText = document.createElement("span");
+	objText.textContent = "Error: " + message + " (code " + code + ")";
+
+	var objClose = document.createElement("button");
+	objClose.textContent = "X";
+	objClose.className = "button close";
+
+	// Link HTML together
+	objInner.appendChild(objText);
+	objInner.appendChild(objClose);
+	objContainer.appendChild(objInner);
+
+	// Put error object on page and animate
+	$('#error-space').prepend(objContainer);
+	$(objContainer).slideDown(150);
+}
+
+// When error closes are clicked, remove them from the page with a little animation
+$(document).on("click", '#error-space .close', function () {
+	var errorToClose = $(this).parents('.error');
+	$(errorToClose).slideUp(150, () => {
+		$(errorToClose).remove();
+	});
+});
+
+///* =========== */
+///* Log viewing */
+///* =========== */
+//$(document).on("click", '#show-log', () => {
+//	// Clear the log space
+//	$('#log-space').html("");
+
+
+//});

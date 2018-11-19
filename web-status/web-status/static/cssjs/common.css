@@ -1,4 +1,5 @@
-﻿@font-face {
+﻿/* Page style */
+@font-face {
 	font-family: "Fira Sans";
 	src: url(/c/FiraSans-Regular.ttf);
 }
@@ -66,4 +67,127 @@ body {
 	top: 250px;
 	z-index: 1;
 	filter: blur(30px);
+}
+
+/* Buttons */
+/* This selector block and the below are NOT typos, they are meant to be separate */
+button, a.button, input.button {
+	background: initial;
+	border: initial;
+	font-family: inherit;
+	font-size: initial;
+	text-decoration: none;
+	cursor: pointer;
+	padding: initial;
+}
+button:focus, input.button:hover focus {
+	outline: 0;
+}
+button.button, a.button, input.button {
+	text-transform: uppercase;
+	color: hsl(0, 0%, 50%);
+	font-weight: bold;
+	border-radius: 2px;
+	display: inline-block;
+	cursor: pointer;
+	padding: 8px 12px;
+	transition: box-shadow 0.1s;
+}
+button.button:hover, a.button:hover, input.button:hover {
+	background: hsl(0, 0%, 96%);
+}
+button.button:active, a.button:active, input.button:active {
+	background: hsl(0, 0%, 88%);
+}
+button.button.smol, a.button.smol, input.button.smol {
+	padding: 4px 8px;
+}
+button.button:focus {
+	outline: 0;
+}
+button.button:disabled, a.button:disabled, input.button:disabled {
+	opacity: 0.5;
+}
+
+button.button.raised, a.button.raised, input.button.raised {
+	background: hsl(216, 50%, 96%);
+	box-shadow: 0 0 2px 0 hsl(0, 0%, 70%);
+}
+button.button.raised:hover, a.button.raised:hover, input.button.raised:hover {
+	background: hsl(216, 30%, 88%);
+	box-shadow: 0 0 2px 0 hsl(0, 0%, 70%), 0 2px 6px 0 hsl(0, 0%, 60%);
+}
+button.button.raised:active, a.button.raised:active, input.button.raised:active {
+	background: hsl(216, 10%, 80%);
+	box-shadow: 0 0 2px 0 hsl(0, 0%, 70%), 0 4px 8px 0 hsl(0, 0%, 60%);
+}
+button.button.raised.colored, a.button.raised.colored, input.button.raised.colored {
+	background: hsl(216, 85%, 70%);
+	color: white;
+}
+button.button.raised.colored:hover, a.button.raised.colored:hover, input.button.raised.colored:hover {
+	background: hsl(216,60%, 64%);
+}
+button.button.raised.colored:active, a.button.raised.colored:active, input.button.raised.colored:active {
+	background: hsl(216, 40%, 58%);
+}
+button.button.raised.negative, a.button.raised.negative, input.button.raised.negative {
+	background: hsl(0, 85%, 70%);
+	color: white;
+}
+button.button.raised.negative:hover, a.button.raised.negative:hover, input.button.raised.negative:hover {
+	background: hsl(0,60%, 64%);
+}
+button.button.raised.negative:active, a.button.raised.negative:active, input.button.raised.negative:active {
+	background: hsl(0, 40%, 58%);
+}
+
+/* Errors */
+#error-space {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+}
+#error-space .error {
+    box-sizing: border-box;
+    background: hsl(0, 60%, 40%);
+    color: white;
+    width: 100%;
+	animation-name: error-anim;
+	animation-duration: 3s;
+}
+#error-space .inner {
+	box-sizing: border-box;
+	min-width: 1000px;
+	max-width: 80%;
+    padding: 10px;
+    margin: auto;
+}
+@media only screen and (max-width: 1000px) {
+	#error-space .inner {
+		min-width: 100%;
+		width: 100%;
+	}
+}
+#error-space .close {
+    float: right;
+    margin: -5px 0 0;
+    padding: 5px 10px;
+	color: inherit;
+}
+#error-space .close:hover {
+    background: hsl(0, 0%, 100%, 0.1);
+}
+#error-space .close:active {
+    background: hsl(0, 0%, 100%, 0.2);
+}
+@keyframes error-anim {
+	0%	{ background: hsl(0, 100%, 70%); }
+	66%	{ background: hsl(0, 80%, 60%); }
+	99% { background: hsl(0, 60%, 40%); }
+}
+
+/* Log button */
+#show-log {
+	
 }
