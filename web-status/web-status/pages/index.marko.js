@@ -22,12 +22,12 @@ function render(input, out, __component, component, state) {
       _arg: marko_merge({
           head: {
               renderBody: function renderBody(out) {
-                out.w("<script src=\"/c/index.js\"></script>");
+                out.w("<script src=\"/c/index.js\"></script><link rel=\"stylesheet\" href=\"/c/index.css\">");
               }
             },
           body: {
               renderBody: function renderBody(out) {
-                out.w("Hello there! ayo!");
+                out.w("<div id=\"status-overall\"></div><div id=\"uptime-period-container\">Uptime over the past <span id=\"uptime-period-actual\">?</span> days.</div><div id=\"areas\"></div>");
               }
             },
           [hasRenderBodyKey]: true

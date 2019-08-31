@@ -1,2 +1,57 @@
-﻿body {
+﻿#areas {
+	margin: 20px 0;
+}
+.area {
+	padding: 10px;
+}#areas {
+	margin: 20px 0;
+}
+.area {
+	padding: 10px;
+}
+.area + .area {
+	border-top: 1px solid #aaa;
+}
+.area .status, .area .title {
+	width: 50%;
+	display: inline-block;
+}
+.area .status {
+	text-align: right;
+}
+.bar-container > * {
+	display: inline-block;
+}
+.area + .area {
+	border-top: 1px solid #aaa;
+}
+.area .status, .area .title {
+	width: 50%;
+	display: inline-block;
+}
+.area .status {
+	text-align: right;
+}
+.bar-container > * {
+	display: inline-block;
+}
+.bar-container .bar-top, .bar-container .bar-bottom {
+	height: 20px;
+	background: black;
+	margin: 0 2px;
+}
+.bar-container *:first-child .bar-top, .bar-container *:first-child .bar-bottom {
+	margin-left: 0;
+}
+.bar-container *:last-child .bar-top, .bar-container *:last-child .bar-bottom {
+	margin-right: 0;
+}
+.bar-container .tooltip {
+	display: none;
+}
+.bar-container > *:hover .tooltip {
+	display: block;
+	position: absolute;
+	padding: 20px;
+	background: white;
 }

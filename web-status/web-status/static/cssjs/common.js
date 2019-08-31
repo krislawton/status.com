@@ -1,4 +1,5 @@
-﻿// Background animation
+﻿'use strict';
+// Background animation
 $(document).ready(() => {
 	$('#bg-animation').attr('height', $('#page-body').outerHeight()).attr('width', $(window).width());
 
@@ -23,7 +24,7 @@ $(document).ready(() => {
 			triangles.push(new newTriangle(firstFew));
 		}
 
-		for (i = 0; i < triangles.length; i++) {
+		for (var i = 0; i < triangles.length; i++) {
 			var tr = triangles[i];
 			tr.p1.x += tr.v + tr.p1.vx;
 			tr.p2.x += tr.v + tr.p2.vx;
@@ -44,8 +45,8 @@ $(document).ready(() => {
 
 			var hslString = tr.hue + ", " + tr.sat + "%, " + tr.lig + "%";
 			ctx.fillStyle = "hsla(" + hslString + ", "+ tr.o * 0.4 +")";
-			ctx.strokeStyle = "hsla(" + hslString + ", " + tr.o * 0.6 + ")";
-			ctx.lineWidth = 3;
+			ctx.strokeStyle = "hsla(" + hslString + ", " + tr.o * 0.4 + ")";
+			ctx.lineWidth = 0;
 
 			ctx.beginPath();
 			ctx.moveTo(Math.round(tr.p1.x * 2) / 2, Math.round(tr.p1.y * 2) / 2);
@@ -153,6 +154,14 @@ socket.on("connect_error", (e) => {
 	}
 });
 
+// Set a counter that increases every time a socket.talk happens
+socket.counter = 0;
+// Set an ID that associated this page talking to the server
+socket.pageId = "";
+for (var i = 0; i < 16; i++) {
+	socket.pageId += Math.round(Math.random() * 16).toString(16);
+}
+
 // Custom socket request functions
 /**
  * Does a socket.emit with error and pageload handling
@@ -164,6 +173,8 @@ socket.on("connect_error", (e) => {
  * @param {function} callback Standard callback (format is '(error, result)')
  */
 socket.talk = function () {
+	socket.counter++;
+
 	// Dynamic arguments
 	var type = arguments[0];
 	var say = arguments[1];
@@ -188,6 +199,57 @@ socket.talk = function () {
 		return;
 	}
 
+	// Get a little random ID
+	var randomBuilder = {
+		fromPage: document.URL.split(""),
+		fromCall: arguments[0],
+		counter: socket.counter,
+		final: ""
+	};
+	// 1st set - 32 chars from pure random
+	for (var i = 0; i < 32; i++) {
+		randomBuilder.final += Math.round(Math.random() * 16).toString(16);
+	}
+	// 2nd set - 32 chars from socket counter
+	randomBuilder.final += "-";
+	for (var i = 0; i < 32; i++) {
+		var usePower = 1.3 + i * 0.001;
+		var t = Math.pow(i, usePower);
+		t = t % 0.0001 * 10000;
+		t = t * 16;
+		t = Math.round(t);
+		randomBuilder.final += t.toString(16);
+	}
+	// 3rd set - 34 chars from call name
+	randomBuilder.final += "-";
+	randomBuilder.fromCall = arguments[0].split("");
+	for (var i = 0, a = 0; i < 32; i++) {
+		a = i % arguments[0].length;
+		var usePower = 0.6 + i * 0.001;
+		var b = Math.pow(a, usePower);
+		b = b % 0.0001 * 10000;
+		b = b * 16;
+		b = Math.round(b);
+		randomBuilder.final += b.toString(16);
+	}
+	// 4th set - 16 chars from ID attached to page's socket
+	randomBuilder.final += "-";
+	randomBuilder.final += socket.pageId;
+	// 5th set - 16 chars from URL
+	randomBuilder.final += "-";
+	randomBuilder.fromPage = document.URL.split("").reverse();
+	for (var i = 0, a = 0; i < 16; i++) {
+		a = i % document.URL.length;
+		var b = randomBuilder.fromPage[a].charCodeAt(0);
+		var usePower = 0.4 + i * 0.001;
+		b = Math.pow(b, usePower);
+		b = b % 0.0001 * 10000;
+		b = b * 16;
+		b = Math.round(b);
+		randomBuilder.final += b.toString(16);
+	}
+	console.log(randomBuilder);
+
 	// If it's valid, do the emit
 	//socket.emit.apply(null, args);
 	// Test replacement for emitting to server
@@ -195,6 +257,7 @@ socket.talk = function () {
 		demoEmit.apply(null, args);
 	} catch (e) {
 		reportErrorToUser("0$00000104", "The asynchronous request went bad. Are the arguments correct?");
+		console.log(e);
 		callback(true, null);
 	}
 };
@@ -258,6 +321,8 @@ function reportErrorToUser(code, message) {
 	var objClose = document.createElement("button");
 	objClose.textContent = "X";
 	objClose.className = "button close";
+	objClose.attributes.alt = "Hide error";
+	objClose.title = "Hide error";
 
 	// Link HTML together
 	objInner.appendChild(objText);

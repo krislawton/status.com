@@ -1,8 +1,11 @@
 ﻿<include('./includes/00_all.marko', { title: "Home page" })>
 	<@head>
 		<script src="/c/index.js"></script>
+		<link rel="stylesheet" href="/c/index.css" />
 	</@head>
 	<@body>
-		Hello there! ayo!
+		<div id="status-overall"></div>
+		<div id="uptime-period-container">Uptime over the past <span id="uptime-period-actual">?</span> days.</div>
+		<div id="areas"></div>
 	</@body>
 </include>
